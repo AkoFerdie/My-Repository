@@ -23,7 +23,7 @@ class ThirdPage extends StatelessWidget {
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.zero, // Controlled inside Padding below
+          padding: EdgeInsets.zero,
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: maxWidth),
             child: Padding(
@@ -70,7 +70,7 @@ class ThirdPage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: 'Email or Username',
-                        labelStyle: const TextStyle(fontSize: 14,),
+                        labelStyle: const TextStyle(fontSize: 14),
                         prefixIcon: const Icon(Icons.person, size: 18, color: Color(0xFF4CAF50)),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -179,9 +179,19 @@ class ThirdPage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Social Buttons
-                  _buildSocialButton(context, 'Continue with Google', 'assets/google.png'),
+                  _buildSocialButton(
+                    context,
+                    'Continue with Google',
+                    'assets/google.png',
+                    alignLeft: true, // Only Google is left-aligned
+                  ),
                   const SizedBox(height: 10),
-                  _buildSocialButton(context, 'Continue with Facebook', 'assets/facebook.png'),
+                  _buildSocialButton(
+                    context,
+                    'Continue with Facebook',
+                    'assets/facebook.png',
+                    alignLeft: false, // Centered (default)
+                  ),
                   const SizedBox(height: 20),
 
                   // Don't have an account? Sign Up
@@ -218,12 +228,14 @@ class ThirdPage extends StatelessWidget {
     );
   }
 
-  // Social button with optimized icon size (50x50)
+  /// Customizable social button with optional left alignment for icon
   Widget _buildSocialButton(
     BuildContext context,
     String label,
-    String iconPath,
-  ) {
+    String iconPath, {
+    bool alignLeft = false,
+    double iconPadding = 16.0,
+  }) {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
@@ -232,25 +244,24 @@ class ThirdPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 12), // Balanced height
+          padding: const EdgeInsets.symmetric(vertical: 12),
         ),
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("$label pressed")), // Dynamic text → no 'const'
+            SnackBar(content: Text("$label pressed")),
           );
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: alignLeft ? MainAxisAlignment.start : MainAxisAlignment.center,
           children: [
-            const SizedBox(width: 10), // adding a padding
-            // Social Icon (Reduced to 50x50 for better balance)
+            if (alignLeft) SizedBox(width: iconPadding), // Left padding for visual balance
             Image.asset(
               iconPath,
               width: 30,
               height: 30,
-              fit: BoxFit.contain, // Ensures full visibility
+              fit: BoxFit.contain,
             ),
-            const SizedBox(width: 10), // Spacing between icon and text
+            const SizedBox(width: 10), // Space between icon and text
             Text(
               label,
               style: const TextStyle(
