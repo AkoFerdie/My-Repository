@@ -1,0 +1,25 @@
+name: dart_application_1
+description: A sample Flutter application.
+version: 1.0.0
+
+environment:
+  sdk: ">=3.7.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+  lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/Picture2.png
+    - assets/front_logo.png
+    - assets/google.png
+    - assets/facebook.png
+
