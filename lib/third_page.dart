@@ -1,16 +1,18 @@
 // File: lib/third_page.dart
 import 'package:flutter/material.dart';
+import 'fourth_page.dart';
+import 'forgot_password_page.dart';
 
 class ThirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Define max width to prevent overflow on large screens
+    // Define max width to prevent overflow on large screens 
     final double maxWidth = 400;
     final double horizontalPadding = 20;
-
+  
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E8), // Light green background
-      appBar: AppBar(
+      appBar: AppBar(   
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -71,20 +73,34 @@ class ThirdPage extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Email or Username',
                         labelStyle: const TextStyle(fontSize: 14),
-                        prefixIcon: const Icon(Icons.person, size: 18, color: Color(0xFF4CAF50)),
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          size: 18,
+                          color: Color(0xFF4CAF50),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50), width: 2),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                            width: 2,
+                          ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                          ),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                       ),
                       style: const TextStyle(fontSize: 14),
                     ),
@@ -99,21 +115,39 @@ class ThirdPage extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: const TextStyle(fontSize: 14),
-                        prefixIcon: const Icon(Icons.lock, size: 18, color: Color(0xFF4CAF50)),
-                        suffixIcon: const Icon(Icons.visibility, size: 18, color: Color(0xFF4CAF50)),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          size: 18,
+                          color: Color(0xFF4CAF50),
+                        ),
+                        suffixIcon: const Icon(
+                          Icons.visibility,
+                          size: 18,
+                          color: Color(0xFF4CAF50),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50), width: 2),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                            width: 2,
+                          ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF4CAF50)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF4CAF50),
+                          ),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                       ),
                       style: const TextStyle(fontSize: 14),
                     ),
@@ -122,19 +156,20 @@ class ThirdPage extends StatelessWidget {
 
                   // Forgot Password?
                   Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Forgot Password?")),
-                        );
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(fontSize: 12, color: Color(0xFF4CAF50)),
-                      ),
-                    ),
-                  ),
+  alignment: Alignment.centerRight,
+  child: TextButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+      );
+    },
+    child: const Text(
+      'Forgot Password?',
+      style: TextStyle(fontSize: 12, color: Color(0xFF4CAF50)),
+    ),
+  ),
+),
                   const SizedBox(height: 20),
 
                   // Sign In Button
@@ -168,12 +203,19 @@ class ThirdPage extends StatelessWidget {
                   // OR Divider
                   Row(
                     children: [
-                      Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
+                      Expanded(
+                        child: Divider(color: Colors.grey[300], thickness: 1),
+                      ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text('OR', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        child: Text(
+                          'OR',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ),
-                      Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
+                      Expanded(
+                        child: Divider(color: Colors.grey[300], thickness: 1),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -202,10 +244,14 @@ class ThirdPage extends StatelessWidget {
                         "Don't have an account? ",
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
-                      TextButton(
+                     TextButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Navigate to Sign Up Screen")),
+                          // FIXED: Navigate to FourthPage (Sign Up)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FourthPage(),
+                            ),
                           );
                         },
                         child: const Text(
@@ -234,7 +280,7 @@ class ThirdPage extends StatelessWidget {
     String label,
     String iconPath, {
     bool alignLeft = false,
-    double iconPadding = 16.0,
+    double iconPadding = 75.0,
   }) {
     return SizedBox(
       width: double.infinity,
@@ -247,20 +293,17 @@ class ThirdPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
         ),
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("$label pressed")),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("$label pressed")));
         },
         child: Row(
-          mainAxisAlignment: alignLeft ? MainAxisAlignment.start : MainAxisAlignment.center,
+          mainAxisAlignment:
+              alignLeft ? MainAxisAlignment.start : MainAxisAlignment.center,
           children: [
-            if (alignLeft) SizedBox(width: iconPadding), // Left padding for visual balance
-            Image.asset(
-              iconPath,
-              width: 30,
-              height: 30,
-              fit: BoxFit.contain,
-            ),
+            if (alignLeft)
+              SizedBox(width: iconPadding), // Left padding for visual balance
+            Image.asset(iconPath, width: 30, height: 30, fit: BoxFit.contain),
             const SizedBox(width: 10), // Space between icon and text
             Text(
               label,

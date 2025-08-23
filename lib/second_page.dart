@@ -1,6 +1,7 @@
 // File: lib/second_page.dart
 import 'package:flutter/material.dart';
 import 'third_page.dart'; // Import ThirdPage
+import 'fourth_page.dart';
 
 class SecondPage extends StatelessWidget {
   @override
@@ -86,37 +87,36 @@ class SecondPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-
-                // Sign Up Button
-                SizedBox(
-                  width: 240,
-                  height: 52,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Color(0xFF4CAF50)),
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    onPressed: () {
-                      // Later: Navigate to SignUpScreen
-                      // For now, just for demo
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Sign Up clicked")),
-                      );
-                    },
-                    child: Text(
-                      'Sign up',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF4CAF50),
-                      ),
-                    ),
-                  ),
-                ),
+// Sign Up Button
+SizedBox(
+  width: 240,
+  height: 52,
+  child: OutlinedButton(
+    style: OutlinedButton.styleFrom(
+      side: BorderSide(color: Color(0xFF4CAF50)),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 16),
+    ),
+    onPressed: () {
+      // ✅ FIXED: Navigate to FourthPage
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FourthPage()),
+      );
+    },
+    child: Text(
+      'Sign up',
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF4CAF50),
+      ),
+    ),
+  ),
+),
               ],
             ),
           ),
