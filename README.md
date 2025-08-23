@@ -1,6 +1,4 @@
 # My-Repository
 
-This is my Dart project. I want to add them here
-
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+Platform to bridge the gab between citizens and local waste management services 
+in order to create a cleaner and comfortable environment for all
