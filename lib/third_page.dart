@@ -25,7 +25,7 @@ class ThirdPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/Change.png"),
+            image: AssetImage("assets/Chge.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -243,7 +243,7 @@ class ThirdPage extends StatelessWidget {
                       alignLeft: false,
                     ),
 
-                    // ✅ Extra space before "Sign Up" section
+                    // Extra space before "Sign Up" section
                     const SizedBox(height: 30),
 
                     // Don't have an account? Sign Up

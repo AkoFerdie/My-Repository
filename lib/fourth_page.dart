@@ -10,9 +10,7 @@ class FourthPage extends StatelessWidget {
     final double horizontalPadding = 20;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF4CAF50)),
@@ -20,198 +18,195 @@ class FourthPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Back', style: TextStyle(color: Color(0xFF4CAF50))),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/Change.png"),
-            fit: BoxFit.cover,
-          ),
+        title: const Text(
+          'Back',
+          style: TextStyle(color: Color(0xFF4CAF50)),
         ),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: maxWidth),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: Column(
-                children: [
-                  const SizedBox(height: kToolbarHeight + 20),
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Column(
+              children: [
+                const SizedBox(height: kToolbarHeight + 20),
 
-                  // Logo
-                  Image.asset(
-                    'assets/front_logo.png',
-                    width: 60,
-                    height: 60,
-                    color: const Color(0xFF4CAF50),
+                // Logo
+                Image.asset(
+                  'assets/front_logo.png',
+                  width: 60,
+                  height: 60,
+                  color: const Color(0xFF4CAF50),
+                ),
+                const SizedBox(height: 8),
+
+                // App Title
+                const Text(
+                  'Keep It Clean',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4CAF50),
                   ),
-                  const SizedBox(height: 8),
+                ),
+                const SizedBox(height: 10),
 
-                  // App Title
-                  const Text(
-                    'Keep It Clean',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4CAF50),
-                    ),
+                // Page Title
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4CAF50),
                   ),
-                  const SizedBox(height: 10),
+                ),
+                const SizedBox(height: 16),
 
-                  // Page Title
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF4CAF50),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                // Spacer pushes form down but keeps fit
+                const Spacer(),
 
-                  // Spacer pushes form down but keeps fit
-                  const Spacer(),
+                // Full Name
+                _buildTextField(label: "Full Name", icon: Icons.person),
+                const SizedBox(height: 8),
 
-                  // Full Name
-                  _buildTextField(label: "Full Name", icon: Icons.person),
-                  const SizedBox(height: 8),
+                // Email
+                _buildTextField(label: "Email", icon: Icons.email),
+                const SizedBox(height: 8),
 
-                  // Email
-                  _buildTextField(label: "Email", icon: Icons.email),
-                  const SizedBox(height: 8),
+                // Password
+                _buildTextField(
+                  label: "Password",
+                  icon: Icons.lock,
+                  isPassword: true,
+                ),
+                const SizedBox(height: 8),
 
-                  // Password
-                  _buildTextField(
-                    label: "Password",
-                    icon: Icons.lock,
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 8),
+                // Confirm Password
+                _buildTextField(
+                  label: "Confirm Password",
+                  icon: Icons.lock,
+                  isPassword: true,
+                ),
+                const SizedBox(height: 12),
 
-                  // Confirm Password
-                  _buildTextField(
-                    label: "Confirm Password",
-                    icon: Icons.lock,
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Agreement
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Transform.scale(
-                        scale: 0.7,
-                        child: Checkbox(
-                          value: false,
-                          onChanged: (bool? value) {},
-                          activeColor: const Color(0xFF4CAF50),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
+                // Agreement
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Transform.scale(
+                      scale: 0.7,
+                      child: Checkbox(
+                        value: false,
+                        onChanged: (bool? value) {},
+                        activeColor: const Color(0xFF4CAF50),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      Flexible(
-                        child: Text.rich(
-                          TextSpan(
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black87,
-                            ),
-                            children: [
-                              const TextSpan(text: 'I agree to the '),
-                              TextSpan(
-                                text: 'terms',
-                                style: const TextStyle(
-                                  color: Color(0xFF4CAF50),
-                                  decoration: TextDecoration.underline,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text("Terms of Use clicked")),
-                                    );
-                                  },
-                              ),
-                              const TextSpan(text: ' and '),
-                              TextSpan(
-                                text: 'privacy policy',
-                                style: const TextStyle(
-                                  color: Color(0xFF4CAF50),
-                                  decoration: TextDecoration.underline,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text("Privacy Policy clicked")),
-                                    );
-                                  },
-                              ),
-                            ],
+                    ),
+                    Flexible(
+                      child: Text.rich(
+                        TextSpan(
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.black87,
                           ),
+                          children: [
+                            const TextSpan(text: 'I agree to the '),
+                            TextSpan(
+                              text: 'terms',
+                              style: const TextStyle(
+                                color: Color(0xFF4CAF50),
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Terms of Use clicked")),
+                                  );
+                                },
+                            ),
+                            const TextSpan(text: ' and '),
+                            TextSpan(
+                              text: 'privacy policy',
+                              style: const TextStyle(
+                                color: Color(0xFF4CAF50),
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Privacy Policy clicked")),
+                                  );
+                                },
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
 
-                  // Sign Up Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4CAF50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                // Sign Up Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4CAF50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Signed Up!")),
+                      );
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Reduced bottom spacer to bring Sign In text up
+                const SizedBox(height: 20),
+
+                // Already have an account?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account?",
+                      style: TextStyle(fontSize: 15, color: Colors.black87),
+                    ),
+                    TextButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Signed Up!")),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => ThirdPage()),
                         );
                       },
                       child: const Text(
-                        'Sign Up',
+                        'Sign In',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4CAF50),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
                         ),
                       ),
                     ),
-                  ),
-
-                  // Reduced bottom spacer to bring Sign In text up
-                  const SizedBox(height: 20),
-
-                  // Already have an account?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Already have an account?",
-                        style: TextStyle(fontSize: 15, color: Colors.black87),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => ThirdPage()),
-                          );
-                        },
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            color: Color(0xFF4CAF50),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                ],
-              ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+              ],
             ),
           ),
         ),
@@ -220,7 +215,8 @@ class FourthPage extends StatelessWidget {
   }
 
   // Reusable textfield builder
-  static Widget _buildTextField({required String label, required IconData icon, bool isPassword = false}) {
+  static Widget _buildTextField(
+      {required String label, required IconData icon, bool isPassword = false}) {
     return SizedBox(
       width: double.infinity,
       child: TextField(
@@ -244,7 +240,8 @@ class FourthPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Color(0xFF4CAF50)),
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
         ),
         style: const TextStyle(fontSize: 12),
       ),
