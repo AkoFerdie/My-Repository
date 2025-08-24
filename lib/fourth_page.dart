@@ -2,8 +2,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'third_page.dart';
+import 'profile_page.dart';
+import 'services/database_service.dart';
 
-class FourthPage extends StatelessWidget {
+class FourthPage extends StatefulWidget {
+  @override
+  State<FourthPage> createState() => _FourthPageState();
+}
+
+class _FourthPageState extends State<FourthPage> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  bool _agreeTerms = false;
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double maxWidth = 400;
@@ -63,31 +86,22 @@ class FourthPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Spacer pushes form down but keeps fit
                 const Spacer(),
 
                 // Full Name
-                _buildTextField(label: "Full Name", icon: Icons.person),
+                _buildTextField(controller: _fullNameController, label: "Full Name", icon: Icons.person),
                 const SizedBox(height: 8),
 
                 // Email
-                _buildTextField(label: "Email", icon: Icons.email),
+                _buildTextField(controller: _emailController, label: "Email", icon: Icons.email),
                 const SizedBox(height: 8),
 
                 // Password
-                _buildTextField(
-                  label: "Password",
-                  icon: Icons.lock,
-                  isPassword: true,
-                ),
+                _buildTextField(controller: _passwordController, label: "Password", icon: Icons.lock, isPassword: true),
                 const SizedBox(height: 8),
 
                 // Confirm Password
-                _buildTextField(
-                  label: "Confirm Password",
-                  icon: Icons.lock,
-                  isPassword: true,
-                ),
+                _buildTextField(controller: _confirmPasswordController, label: "Confirm Password", icon: Icons.lock, isPassword: true),
                 const SizedBox(height: 12),
 
                 // Agreement
@@ -97,8 +111,12 @@ class FourthPage extends StatelessWidget {
                     Transform.scale(
                       scale: 0.7,
                       child: Checkbox(
-                        value: false,
-                        onChanged: (bool? value) {},
+                        value: _agreeTerms,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _agreeTerms = value ?? false;
+                          });
+                        },
                         activeColor: const Color(0xFF4CAF50),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
@@ -106,23 +124,18 @@ class FourthPage extends StatelessWidget {
                     Flexible(
                       child: Text.rich(
                         TextSpan(
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black87,
-                          ),
+                          style: const TextStyle(fontSize: 13, color: Colors.black87),
                           children: [
                             const TextSpan(text: 'I agree to the '),
                             TextSpan(
                               text: 'terms',
                               style: const TextStyle(
-                                color: Color(0xFF4CAF50),
-                                decoration: TextDecoration.underline,
-                              ),
+                                  color: Color(0xFF4CAF50),
+                                  decoration: TextDecoration.underline),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Terms of Use clicked")),
+                                    const SnackBar(content: Text("Terms of Use clicked")),
                                   );
                                 },
                             ),
@@ -130,14 +143,12 @@ class FourthPage extends StatelessWidget {
                             TextSpan(
                               text: 'privacy policy',
                               style: const TextStyle(
-                                color: Color(0xFF4CAF50),
-                                decoration: TextDecoration.underline,
-                              ),
+                                  color: Color(0xFF4CAF50),
+                                  decoration: TextDecoration.underline),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Privacy Policy clicked")),
+                                    const SnackBar(content: Text("Privacy Policy clicked")),
                                   );
                                 },
                             ),
@@ -160,9 +171,60 @@ class FourthPage extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Signed Up!")),
+                    onPressed: () async {
+                      if (_fullNameController.text.isEmpty ||
+                          _emailController.text.isEmpty ||
+                          _passwordController.text.isEmpty ||
+                          _confirmPasswordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Please fill all fields")),
+                        );
+                        return;
+                      }
+
+                      if (_passwordController.text != _confirmPasswordController.text) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Passwords do not match")),
+                        );
+                        return;
+                      }
+
+                      if (!_agreeTerms) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("You must agree to the terms")),
+                        );
+                        return;
+                      }
+
+                      // Initialize database
+                      final db = DatabaseService();
+                      await db.init();
+
+                      // Check if email exists
+                      final emailExists = await db.isEmailExist(_emailController.text);
+                      if (emailExists) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Email already registered")),
+                        );
+                        return;
+                      }
+
+                      // Insert user
+                      await db.insertUser({
+                        "username": _fullNameController.text,
+                        "email": _emailController.text,
+                        "password": _passwordController.text,
+                      });
+
+                      // Navigate to ProfilePage
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            fullName: _fullNameController.text,
+                            email: _emailController.text,
+                          ),
+                        ),
                       );
                     },
                     child: const Text(
@@ -176,7 +238,6 @@ class FourthPage extends StatelessWidget {
                   ),
                 ),
 
-                // Reduced bottom spacer to bring Sign In text up
                 const SizedBox(height: 20),
 
                 // Already have an account?
@@ -214,12 +275,16 @@ class FourthPage extends StatelessWidget {
     );
   }
 
-  // Reusable textfield builder
-  static Widget _buildTextField(
-      {required String label, required IconData icon, bool isPassword = false}) {
+  static Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    bool isPassword = false,
+  }) {
     return SizedBox(
       width: double.infinity,
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           labelText: label,

@@ -1,9 +1,13 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'getting_started_page.dart';
+import 'services/database_service.dart'; // import your service
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  // Initialize database for web/mobile/desktop
+  await DatabaseService().init();
+
   runApp(const MyApp());
 }
 

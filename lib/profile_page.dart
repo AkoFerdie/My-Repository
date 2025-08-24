@@ -2,23 +2,36 @@
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
+  final String fullName;
+  final String email;
+
+  const ProfilePage({super.key, required this.fullName, required this.email});
+
   @override
   Widget build(BuildContext context) {
+    // Set the same background color as Sign In/Sign Up
+    const backgroundColor = Color(0xFFF5F5F5); // Replace with your exact color
+
     return Scaffold(
+      backgroundColor: backgroundColor, // Full-screen background color
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text('My Profile'),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor, // Match the page color
         elevation: 0,
-        centerTitle: true,
+        centerTitle: false, // Align title to the left
+        foregroundColor: Colors.black, // Ensure icons/text are visible
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,21 +41,21 @@ class ProfilePage extends StatelessWidget {
                 Container(
                   width: 80,
                   height: 80,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage('assets/avatar.png'), // Replace with user photo
+                      image: AssetImage('assets/facebook.png'), // Replace with user photo
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Mr Dedan',
-                      style: TextStyle(
+                    Text(
+                      fullName,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -50,115 +63,30 @@ class ProfilePage extends StatelessWidget {
                     ),
                     const Text(
                       'Active Citizen',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.green,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.green),
                     ),
                     const Text(
                       'Joined 2022',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
 
-            // Dashboard
-            ListTile(
-              title: const Text(
-                'Dashboard',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Dashboard coming soon")),
-                );
-              },
-            ),
-
-            // Account Details
-            ListTile(
-              title: const Text(
-                'Account Details',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Account Details coming soon")),
-                );
-              },
-            ),
-
-            // Edit Profile
-            ListTile(
-              title: const Text(
-                'Edit Profile',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Edit Profile coming soon")),
-                );
-              },
-            ),
-
-            // Reporting History
-            ListTile(
-              title: const Text(
-                'Reporting History',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Reporting History coming soon")),
-                );
-              },
-            ),
-
-            // Settings
-            ListTile(
-              title: const Text(
-                'Settings',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Settings coming soon")),
-                );
-              },
-            ),
+            // Dashboard & Other Options
+            _buildListTile(context, 'Dashboard'),
+            _buildListTile(context, 'Account Details'),
+            _buildListTile(context, 'Edit Profile'),
+            _buildListTile(context, 'Reporting History'),
+            _buildListTile(context, 'Settings'),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        backgroundColor: backgroundColor,
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.green),
             label: 'Home',
@@ -184,19 +112,46 @@ class ProfilePage extends StatelessWidget {
         selectedItemColor: Colors.green,
         unselectedItemColor: Colors.grey,
         onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushReplacementNamed(context, '/engage');
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/profile');
-          } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/notifications');
-          } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/post');
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/home');
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/engage');
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/profile');
+              break;
+            case 3:
+              Navigator.pushReplacementNamed(context, '/notifications');
+              break;
+            case 4:
+              Navigator.pushReplacementNamed(context, '/post');
+              break;
           }
         },
       ),
+    );
+  }
+
+  ListTile _buildListTile(BuildContext context, String title) {
+    return ListTile(
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: title == 'Dashboard' || title == 'Account Details' ? 18 : 16,
+          fontWeight: title == 'Dashboard' || title == 'Account Details'
+              ? FontWeight.w600
+              : FontWeight.normal,
+          color: Colors.black,
+        ),
+      ),
+      trailing: const Icon(Icons.arrow_forward, color: Colors.grey),
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("$title coming soon")),
+        );
+      },
     );
   }
 }
